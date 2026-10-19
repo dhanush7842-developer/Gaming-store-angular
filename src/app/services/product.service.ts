@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import { Category, Product } from '../models/product';
 
@@ -16,7 +17,7 @@ export class ProductService {
       name: 'Gaming PC',
       category: 'Gaming PC',
       price: 80000,
-      image: '/images/gamingpc.jfif',
+      image: 'images/gamingpc.jfif',
       description: 'High-performance desktop built for smooth, high-FPS gaming.',
       featured: true,
       bestSeller: true,
@@ -26,7 +27,7 @@ export class ProductService {
       name: 'Gaming Laptop',
       category: 'Laptop',
       price: 65000,
-      image: '/images/laptop.jfif',
+      image: 'images/laptop.jfif',
       description: 'Powerful portable laptop for gaming wherever you go.',
       featured: true,
     },
@@ -35,7 +36,7 @@ export class ProductService {
       name: 'Graphics Card',
       category: 'Graphics Card',
       price: 35000,
-      image: '/images/graphicscard.jpg',
+      image: 'images/graphicscard.jpg',
       description: 'Dedicated GPU for sharper visuals and higher frame rates.',
       featured: true,
       bestSeller: true,
@@ -45,7 +46,7 @@ export class ProductService {
       name: 'Gaming Mouse',
       category: 'Mouse',
       price: 1500,
-      image: '/images/Gaming Mouse.jpg',
+      image: 'images/Gaming Mouse.jpg',
       description: 'Precise, comfortable mouse with adjustable sensitivity.',
       bestSeller: true,
     },
@@ -54,7 +55,7 @@ export class ProductService {
       name: 'Gaming Monitor',
       category: 'Monitor',
       price: 15000,
-      image: '/images/Gaming Display.png',
+      image: 'images/Gaming Display.png',
       description: 'Crisp, fast display for clear and fluid gameplay.',
       featured: true,
     },
@@ -64,7 +65,7 @@ export class ProductService {
       category: 'Keyboard',
       price: 4500,
       oldPrice: 5500,
-      image: '/images/keyboard-mechanical.jpg',
+      image: 'images/keyboard-mechanical.jpg',
       description: 'Full-size mechanical keyboard with responsive keys and backlighting.',
       isNew: true,
       bestSeller: true,
@@ -74,7 +75,7 @@ export class ProductService {
       name: 'Compact TKL Keyboard',
       category: 'Keyboard',
       price: 3200,
-      image: '/images/keyboard-compact.jpg',
+      image: 'images/keyboard-compact.jpg',
       description: 'Space-saving tenkeyless layout that leaves more room for your mouse.',
       isNew: true,
     },
@@ -83,7 +84,7 @@ export class ProductService {
       name: 'Wireless Gaming Headset',
       category: 'Headset',
       price: 6000,
-      image: '/images/headset-wireless.jpg',
+      image: 'images/headset-wireless.jpg',
       description: 'Cable-free headset with a clear microphone for team chat.',
       isNew: true,
     },
@@ -93,7 +94,7 @@ export class ProductService {
       category: 'Headset',
       price: 3800,
       oldPrice: 4500,
-      image: '/images/headset-surround.jpg',
+      image: 'images/headset-surround.jpg',
       description: 'Immersive surround audio so you can hear every move.',
     },
     {
@@ -101,7 +102,7 @@ export class ProductService {
       name: 'Wireless Gaming Mouse',
       category: 'Mouse',
       price: 2800,
-      image: '/images/mouse-wireless.jpg',
+      image: 'images/mouse-wireless.jpg',
       description: 'Lightweight wireless mouse with a comfortable grip.',
     },
     {
@@ -109,7 +110,7 @@ export class ProductService {
       name: 'Curved Gaming Monitor',
       category: 'Monitor',
       price: 24000,
-      image: '/images/monitor-curved.jpg',
+      image: 'images/monitor-curved.jpg',
       description: 'Wide curved screen that wraps around your field of view.',
       featured: true,
     },
@@ -118,7 +119,7 @@ export class ProductService {
       name: 'Compact Gaming PC',
       category: 'Gaming PC',
       price: 55000,
-      image: '/images/gaming-pc-compact.jpg',
+      image: 'images/gaming-pc-compact.jpg',
       description: 'Space-friendly tower with a clear side panel and cooling fans.',
     },
   ];
@@ -147,3 +148,4 @@ export class ProductService {
     return this.products.filter((p) => p.category === category);
   }
 }
+
