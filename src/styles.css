@@ -1,0 +1,538 @@
+/* ==========================================================
+   NEXUS GAMING - Global Design System
+   Style: LIQUID GLASS (frosted translucent panels over a soft
+   aurora background) + responsive Bento Grid layout.
+   Mood: calm, fresh and relaxing.
+   ========================================================== */
+
+/* ---------- 1. Design tokens ---------- */
+:root {
+  /* Base: deep, calm ocean blue */
+  --bg-main: #0a1424;
+  --bg-secondary: rgba(255, 255, 255, 0.07); /* inputs, table headers */
+  --bg-card: rgba(255, 255, 255, 0.08); /* glass cards */
+
+  /* Soft aurora accents (same variable names as before) */
+  --purple: #a78bfa; /* soft lavender */
+  --blue: #60a5fa; /* sky blue */
+  --cyan: #5eead4; /* fresh mint-aqua */
+
+  --text: #f1f7fb;
+  --text-muted: #afc0d2;
+  --border: rgba(255, 255, 255, 0.16);
+  --on-accent: #062a33; /* dark text used on bright gradient buttons */
+
+  --danger: #fca5a5;
+  --success: #86efac;
+
+  --font-heading: 'Orbitron', 'Segoe UI', sans-serif;
+  --font-body: 'Rajdhani', 'Segoe UI', Arial, sans-serif;
+
+  --radius: 24px;
+  --radius-sm: 14px;
+  --gap: 18px;
+
+  /* Liquid glass surface pieces */
+  --glass-fill: linear-gradient(135deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.05));
+  --glass-border: 1px solid rgba(255, 255, 255, 0.2);
+  --glass-shadow: 0 12px 40px rgba(2, 8, 23, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  --glass-blur: blur(22px) saturate(160%);
+
+  --glow-purple: 0 10px 40px rgba(167, 139, 250, 0.28);
+  --glow-cyan: 0 10px 40px rgba(94, 234, 212, 0.25);
+  --gradient-brand: linear-gradient(135deg, #a7f3d0, #67e8f9 50%, #93c5fd);
+  --transition: 0.25s ease;
+}
+
+/* ---------- 2. Reset & base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg-main);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Soft aurora light drifting slowly behind everything */
+body::before {
+  content: '';
+  position: fixed;
+  inset: -15%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(40% 40% at 15% 20%, rgba(94, 234, 212, 0.28), transparent 70%),
+    radial-gradient(35% 35% at 85% 15%, rgba(167, 139, 250, 0.26), transparent 70%),
+    radial-gradient(45% 45% at 70% 85%, rgba(96, 165, 250, 0.24), transparent 70%),
+    radial-gradient(30% 30% at 10% 90%, rgba(103, 232, 249, 0.16), transparent 70%);
+  filter: blur(40px);
+  animation: aurora 40s ease-in-out infinite alternate;
+}
+
+@keyframes aurora {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(-3%, 4%, 0) scale(1.08);
+  }
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 0 0 0.6em;
+  letter-spacing: 0.01em;
+}
+h1 {
+  font-size: clamp(1.6rem, 4vw + 0.5rem, 2.8rem);
+}
+h2 {
+  font-size: clamp(1.25rem, 2vw + 0.6rem, 1.9rem);
+}
+h3 {
+  font-size: 1.05rem;
+}
+p {
+  margin: 0 0 1em;
+  color: var(--text-muted);
+}
+
+a {
+  color: var(--cyan);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+a:hover {
+  color: #fff;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ---------- 3. Accessibility helpers ---------- */
+:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+  border-radius: 10px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: 12px;
+  top: -60px;
+  z-index: 2000;
+  background: var(--cyan);
+  color: var(--on-accent);
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+}
+.skip-link:focus {
+  top: 12px;
+  color: var(--on-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------- 4. Layout utilities ---------- */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.page-section {
+  padding: 32px 0 56px;
+}
+
+/* Bento grid: 12 columns on desktop, 6 on tablet, 1 on mobile.
+   Put .span-* classes on children to make cards of different sizes. */
+.bento {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--gap);
+}
+.bento > * {
+  grid-column: span 4;
+}
+.bento > .span-3 {
+  grid-column: span 3;
+}
+.bento > .span-4 {
+  grid-column: span 4;
+}
+.bento > .span-6 {
+  grid-column: span 6;
+}
+.bento > .span-8 {
+  grid-column: span 8;
+}
+.bento > .span-12 {
+  grid-column: span 12;
+}
+.bento > .row-2 {
+  grid-row: span 2;
+}
+
+@media (max-width: 900px) {
+  .bento {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  .bento > *,
+  .bento > .span-3,
+  .bento > .span-4 {
+    grid-column: span 3;
+  }
+  .bento > .span-6,
+  .bento > .span-8,
+  .bento > .span-12 {
+    grid-column: span 6;
+  }
+}
+@media (max-width: 600px) {
+  .bento {
+    grid-template-columns: 1fr;
+  }
+  .bento > * {
+    grid-column: 1 / -1 !important;
+    grid-row: auto !important;
+  }
+}
+
+/* ---------- 5. Liquid glass surfaces ---------- */
+.glass {
+  background: var(--glass-fill);
+  border: var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+}
+
+.card {
+  background: var(--glass-fill);
+  border: var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-radius: var(--radius);
+  padding: 22px;
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition),
+    border-color var(--transition);
+}
+.card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.38);
+  box-shadow:
+    0 18px 50px rgba(2, 8, 23, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* ---------- 6. Buttons (soft pills) ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 24px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition),
+    background var(--transition);
+}
+.btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  transform: translateY(-1px);
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-primary {
+  background: var(--gradient-brand);
+  border-color: rgba(255, 255, 255, 0.5);
+  color: var(--on-accent);
+}
+.btn-primary:hover {
+  background: var(--gradient-brand);
+  color: var(--on-accent);
+  box-shadow: var(--glow-cyan);
+}
+
+.btn-ghost {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* ---------- 7. Forms (frosted inputs) ---------- */
+input,
+select,
+textarea {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  transition:
+    border-color var(--transition),
+    box-shadow var(--transition),
+    background var(--transition);
+}
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-muted);
+}
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 4px rgba(94, 234, 212, 0.25);
+}
+select option {
+  color: #0a1424;
+}
+
+/* ---------- 8. Small helpers ---------- */
+.text-gradient {
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.price {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--cyan);
+}
+.error-text {
+  color: var(--danger);
+}
+.success-text {
+  color: var(--success);
+}
+
+/* ---------- 9. Forms: shared by Login and Register ---------- */
+input[type='radio'],
+input[type='checkbox'] {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  flex: none;
+  accent-color: var(--cyan);
+}
+input[type='date'] {
+  color-scheme: dark;
+}
+textarea {
+  resize: vertical;
+  min-height: 96px;
+}
+
+.auth-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: var(--gap);
+  align-items: start;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.auth-wrap.narrow {
+  grid-template-columns: 1fr 1fr;
+  max-width: 900px;
+}
+@media (max-width: 800px) {
+  .auth-wrap,
+  .auth-wrap.narrow {
+    grid-template-columns: 1fr;
+  }
+}
+
+.auth-side {
+  padding: 28px;
+}
+.auth-side:hover,
+.form-card:hover {
+  transform: none;
+}
+.form-card {
+  padding: 28px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+.form-grid .full {
+  grid-column: 1 / -1;
+}
+@media (max-width: 600px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+.form-field > label,
+.form-field > legend {
+  padding: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+.form-field input:not([type='radio']):not([type='checkbox']),
+.form-field select,
+.form-field textarea {
+  width: 100%;
+}
+input[aria-invalid='true'],
+select[aria-invalid='true'],
+textarea[aria-invalid='true'] {
+  border-color: var(--danger);
+}
+
+.field-error {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--danger);
+}
+.field-hint {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.password-wrap {
+  position: relative;
+}
+.password-wrap input {
+  padding-right: 84px !important;
+}
+.password-wrap .toggle {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 4px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.password-wrap .toggle:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.choice-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+}
+.choice-row label,
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text);
+  cursor: pointer;
+}
+.check {
+  align-items: flex-start;
+}
+
+.notice {
+  margin: 0 0 18px;
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  background: rgba(94, 234, 212, 0.1);
+  border: 1px solid rgba(94, 234, 212, 0.35);
+}
+.notice.warn {
+  background: rgba(253, 230, 138, 0.1);
+  border-color: rgba(253, 230, 138, 0.4);
+}
+.notice.error {
+  background: rgba(252, 165, 165, 0.1);
+  border-color: rgba(252, 165, 165, 0.45);
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+.switch-link {
+  margin: 18px 0 0;
+}

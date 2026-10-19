@@ -1,0 +1,19 @@
+<div class="container page-section">
+  <header class="head">
+    <h1>Frequently asked <span class="text-gradient">questions</span></h1>
+    <p>Quick answers about how this demo store works.</p>
+  </header>
+
+  <ul class="list">
+    @for (faq of faqs; track faq.question) {
+      <li>
+        <details class="card item">
+          <summary>{{ faq.question }}</summary>
+          <p>{{ faq.answer }}</p>
+        </details>
+      </li>
+    }
+  </ul>
+
+  <p class="more">Still have a question? <a routerLink="/contact">Contact us</a>.</p>
+</div>

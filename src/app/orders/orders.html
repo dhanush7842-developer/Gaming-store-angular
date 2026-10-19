@@ -1,0 +1,52 @@
+<div class="container page-section">
+  <h1>Order <span class="text-gradient">history</span></h1>
+  <p class="notice warn">
+    These are demo orders saved only in this browser. They disappear if you clear your browser data.
+  </p>
+
+  @if (!orders.loaded()) {
+    <p role="status">Loading your orders&hellip;</p>
+  } @else if (orders.orders().length > 0) {
+    <ul class="list">
+      @for (order of orders.orders(); track order.id) {
+        <li>
+          <details class="card order">
+            <summary>
+              <span class="id">{{ order.id }}</span>
+              <span class="when">{{ order.placedAt | date: 'd MMM y, h:mm a' }}</span>
+              <span class="count">{{ itemCount(order) }} item(s)</span>
+              <span class="price">{{ order.total | inr }}</span>
+            </summary>
+
+            <ul class="items" [attr.aria-label]="'Items in order ' + order.id">
+              @for (item of order.items; track item.productId) {
+                <li>
+                  <span
+                    >{{ item.name }}
+                    <small>&times; {{ item.quantity }} at {{ item.price | inr }}</small></span
+                  >
+                  <span class="amount">{{ item.lineTotal | inr }}</span>
+                </li>
+              }
+            </ul>
+            @if (order.discount) {
+              <p class="meta">Promo {{ order.promoCode }}: &minus;{{ order.discount | inr }}</p>
+            }
+            <p class="meta">
+              Delivery to {{ order.deliverTo.fullName }}, {{ order.deliverTo.city }} -
+              {{ order.deliverTo.pincode }}
+            </p>
+            <p class="meta">Payment: {{ order.paymentMethod }}</p>
+            <a [routerLink]="['/order-confirmation', order.id]">View confirmation</a>
+          </details>
+        </li>
+      }
+    </ul>
+  } @else {
+    <div class="card empty" role="status">
+      <h2>No orders yet</h2>
+      <p>When you place a demo order it will show up here.</p>
+      <a routerLink="/catalogue" class="btn btn-primary">Browse Catalogue</a>
+    </div>
+  }
+</div>

@@ -1,0 +1,154 @@
+.home {
+  padding-top: 28px;
+  padding-bottom: 24px;
+}
+.block {
+  margin-top: 48px;
+}
+.block-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.block-head a {
+  font-weight: 700;
+}
+
+/* Hero */
+.hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 36px;
+}
+.hero:hover,
+.tile:hover {
+  transform: translateY(-3px);
+}
+.eyebrow {
+  margin: 0 0 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  font-size: 0.95rem;
+}
+.hero h1 {
+  font-size: clamp(2rem, 5vw + 0.5rem, 3.6rem);
+  margin-bottom: 18px;
+}
+.lead {
+  font-size: 1.2rem;
+  max-width: 520px;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+/* Image tile with text over a dark overlay */
+.tile {
+  display: flex;
+  flex-direction: column;
+  color: var(--text);
+}
+.image-tile {
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+  min-height: 220px;
+}
+.image-tile img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.overlay {
+  position: relative;
+  margin-top: auto;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: linear-gradient(to top, rgba(6, 14, 28, 0.92), rgba(6, 14, 28, 0));
+}
+.label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+/* Offer tile */
+.offer {
+  justify-content: center;
+  gap: 6px;
+}
+.offer strong {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+}
+.price-line {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.price-line .price {
+  font-size: 1.4rem;
+}
+.old {
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+.more {
+  margin-top: 6px;
+  font-weight: 700;
+  color: var(--cyan);
+}
+
+/* Category tiles */
+.cat-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  color: var(--text);
+  padding: 14px;
+}
+.cat-tile img {
+  width: 100%;
+  height: 110px;
+  object-fit: contain;
+  margin-bottom: 10px;
+  border-radius: 16px;
+  background: #f4f8fb;
+}
+.cat-name {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1rem;
+}
+.cat-count {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.link-btn {
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--cyan);
+  text-decoration: underline;
+}
+.link-btn:hover {
+  color: #fff;
+}

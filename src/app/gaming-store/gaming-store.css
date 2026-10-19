@@ -1,0 +1,105 @@
+.store {
+  padding-top: 32px;
+  padding-bottom: 24px;
+}
+
+.page-head {
+  text-align: center;
+  margin-bottom: 24px;
+}
+.page-head p {
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+/* Filters */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: flex-end;
+  margin-bottom: 20px;
+}
+.filters:hover {
+  transform: none;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 180px;
+}
+.field.grow {
+  flex: 1 1 260px;
+}
+.field label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.field input,
+.field select {
+  width: 100%;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 100%;
+}
+.chip {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 16px;
+  border-radius: 999px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition:
+    background var(--transition),
+    transform var(--transition);
+}
+.chip:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+.chip.active {
+  background: var(--gradient-brand);
+  color: var(--on-accent);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Summary row */
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 24px;
+  margin-bottom: 16px;
+}
+.summary p {
+  margin: 0;
+}
+.summary strong {
+  color: var(--text);
+}
+.cart {
+  margin-left: auto;
+  font-weight: 700;
+}
+.small {
+  padding: 6px 16px;
+}
+
+/* Grid + empty state */
+.empty {
+  text-align: center;
+  padding: 48px 20px;
+}
+.empty:hover {
+  transform: none;
+}

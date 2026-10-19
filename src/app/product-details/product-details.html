@@ -1,0 +1,84 @@
+<div class="container details">
+  @if (product(); as p) {
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a routerLink="/catalogue">Catalogue</a> <span aria-hidden="true">/</span>
+      <a [routerLink]="['/catalogue']" [queryParams]="{ category: p.category }">{{ p.category }}</a>
+    </nav>
+
+    <section class="bento main">
+      <div class="card photo span-6">
+        <img appImgFallback [src]="p.image" [alt]="p.name" />
+      </div>
+
+      <div class="card info span-6">
+        <p class="category">{{ p.category }}</p>
+        <h1>{{ p.name }}</h1>
+
+        <p class="price-row">
+          <span class="price big">{{ p.price | inr }}</span>
+          @if (p.oldPrice) {
+            <span class="old">{{ p.oldPrice | inr }}</span>
+          }
+        </p>
+
+        <p class="desc">{{ p.description }}</p>
+
+        <div class="qty-row">
+          <span id="qty-label" class="label">Quantity</span>
+          <div class="qty" role="group" aria-labelledby="qty-label">
+            <button
+              type="button"
+              aria-label="Decrease quantity"
+              [disabled]="quantity() <= 1"
+              (click)="changeQuantity(-1)"
+            >
+              &minus;
+            </button>
+            <output aria-live="polite">{{ quantity() }}</output>
+            <button
+              type="button"
+              aria-label="Increase quantity"
+              [disabled]="quantity() >= maxQuantity"
+              (click)="changeQuantity(1)"
+            >
+              +
+            </button>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="btn btn-primary" (click)="addToCart()">Add to Cart</button>
+          <button
+            type="button"
+            class="btn"
+            [attr.aria-pressed]="wishlist.has(p.id)"
+            (click)="toggleWishlist()"
+          >
+            {{ wishlist.has(p.id) ? 'Saved to Wishlist' : 'Save to Wishlist' }}
+          </button>
+        </div>
+
+        <p class="note">
+          Total for this selection: <strong>{{ p.price * quantity() | inr }}</strong>
+        </p>
+      </div>
+    </section>
+
+    @if (related().length > 0) {
+      <section class="related" aria-labelledby="related-title">
+        <h2 id="related-title">More in {{ p.category }}</h2>
+        <div class="bento">
+          @for (item of related(); track item.id) {
+            <app-product-card class="span-4" [product]="item" />
+          }
+        </div>
+      </section>
+    }
+  } @else {
+    <div class="card empty" role="status">
+      <h1>Product not found</h1>
+      <p>This product does not exist or was removed.</p>
+      <a routerLink="/catalogue" class="btn btn-primary">Back to Catalogue</a>
+    </div>
+  }
+</div>

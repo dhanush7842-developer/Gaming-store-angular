@@ -1,0 +1,85 @@
+<div class="container page-section">
+  <div class="auth-wrap narrow">
+    <aside class="card auth-side">
+      <p class="eyebrow">Welcome back</p>
+      <h1>Log <span class="text-gradient">in</span></h1>
+      <p>
+        Sign in to pick up where you left off. Your cart and wishlist stay in this browser either
+        way.
+      </p>
+      <p class="tag text-gradient">LEVEL UP. GEAR UP. GAME ON.</p>
+    </aside>
+
+    <section class="card form-card" aria-labelledby="login-title">
+      <h2 id="login-title">Login</h2>
+
+      <p class="notice warn">
+        <strong>Demo mode:</strong> this project has no backend yet, so logging in is not possible.
+        The form only checks your input in the browser.
+      </p>
+
+      @if (checked()) {
+        <p class="notice" role="status">
+          Your details look valid. You were <strong>not</strong> logged in, and nothing was saved or
+          sent.
+        </p>
+      }
+
+      @if (submitted() && form.invalid) {
+        <p class="notice error" role="alert">Please fix the highlighted fields and try again.</p>
+      }
+
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        <div class="form-grid">
+          <div class="form-field full">
+            <label for="username">Username or email</label>
+            <input
+              id="username"
+              type="text"
+              formControlName="username"
+              autocomplete="username"
+              [attr.aria-invalid]="errorMessage('username') ? 'true' : null"
+              [attr.aria-describedby]="errorMessage('username') ? 'username-error' : null"
+            />
+            @if (errorMessage('username'); as message) {
+              <p class="field-error" id="username-error">{{ message }}</p>
+            }
+          </div>
+
+          <div class="form-field full">
+            <label for="password">Password</label>
+            <div class="password-wrap">
+              <input
+                id="password"
+                formControlName="password"
+                autocomplete="current-password"
+                [type]="showPassword() ? 'text' : 'password'"
+                [attr.aria-invalid]="errorMessage('password') ? 'true' : null"
+                [attr.aria-describedby]="errorMessage('password') ? 'password-error' : null"
+              />
+              <button
+                type="button"
+                class="toggle"
+                aria-label="Show password"
+                [attr.aria-pressed]="showPassword()"
+                (click)="showPassword.set(!showPassword())"
+              >
+                {{ showPassword() ? 'Hide' : 'Show' }}
+              </button>
+            </div>
+            @if (errorMessage('password'); as message) {
+              <p class="field-error" id="password-error">{{ message }}</p>
+            }
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Login</button>
+          <button type="button" class="btn" (click)="clear()">Clear</button>
+        </div>
+      </form>
+
+      <p class="switch-link">New here? <a routerLink="/register">Create an account</a></p>
+    </section>
+  </div>
+</div>

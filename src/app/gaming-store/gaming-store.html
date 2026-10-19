@@ -1,0 +1,90 @@
+<div class="container store">
+  <header class="page-head">
+    <h1>Gaming <span class="text-gradient">Catalogue</span></h1>
+    <p>Pick your next upgrade. Search, filter and sort to find the right gear.</p>
+  </header>
+
+  <!-- Filters panel -->
+  <section class="filters card" aria-label="Product filters">
+    <div class="field grow">
+      <label for="search">Search</label>
+      <input
+        id="search"
+        type="search"
+        placeholder="Search by name or category"
+        [ngModel]="searchText()"
+        (ngModelChange)="searchText.set($event)"
+      />
+    </div>
+
+    <div class="field">
+      <label for="price">Price</label>
+      <select id="price" [ngModel]="priceIndex()" (ngModelChange)="priceIndex.set(+$event)">
+        @for (range of priceRanges; track range.label; let i = $index) {
+          <option [ngValue]="i">{{ range.label }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="sort">Sort by</label>
+      <select id="sort" [ngModel]="sortBy()" (ngModelChange)="sortBy.set($event)">
+        @for (option of sortOptions; track option.value) {
+          <option [ngValue]="option.value">{{ option.label }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="chips" role="group" aria-label="Filter by category">
+      <button
+        type="button"
+        class="chip"
+        [class.active]="selectedCategory() === 'All'"
+        [attr.aria-pressed]="selectedCategory() === 'All'"
+        (click)="selectedCategory.set('All')"
+      >
+        All
+      </button>
+
+      @for (category of categories; track category) {
+        <button
+          type="button"
+          class="chip"
+          [class.active]="selectedCategory() === category"
+          [attr.aria-pressed]="selectedCategory() === category"
+          (click)="selectedCategory.set(category)"
+        >
+          {{ category }}
+        </button>
+      }
+    </div>
+  </section>
+
+  <!-- Result summary -->
+  <div class="summary">
+    <p aria-live="polite">
+      Showing <strong>{{ filteredProducts().length }}</strong> product(s)
+    </p>
+    <a routerLink="/cart" class="cart">View cart &rarr;</a>
+    @if (hasActiveFilters()) {
+      <button type="button" class="btn btn-ghost small" (click)="clearFilters()">
+        Clear filters
+      </button>
+    }
+  </div>
+
+  <!-- Product grid -->
+  @if (filteredProducts().length > 0) {
+    <div class="bento grid">
+      @for (product of filteredProducts(); track product.id) {
+        <app-product-card class="span-3" [product]="product" />
+      }
+    </div>
+  } @else {
+    <div class="empty card" role="status">
+      <h2>No products found</h2>
+      <p>Try a different search word, category or price range.</p>
+      <button type="button" class="btn btn-primary" (click)="clearFilters()">Clear filters</button>
+    </div>
+  }
+</div>

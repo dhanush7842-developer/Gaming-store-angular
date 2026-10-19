@@ -1,0 +1,19 @@
+.wish {
+  padding-top: 28px;
+  padding-bottom: 24px;
+}
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.empty {
+  text-align: center;
+  padding: 48px 20px;
+}
+.empty:hover {
+  transform: none;
+}

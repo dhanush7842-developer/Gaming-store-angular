@@ -1,0 +1,99 @@
+<div class="container page-section">
+  <div class="auth-wrap narrow">
+    <aside class="card auth-side">
+      <p class="eyebrow">Get in touch</p>
+      <h1>Contact <span class="text-gradient">us</span></h1>
+      <p>Have a question or some feedback? Fill in the form and describe what you need.</p>
+      <p class="tag text-gradient">LEVEL UP. GEAR UP. GAME ON.</p>
+    </aside>
+
+    <section class="card form-card" aria-labelledby="contact-title">
+      <h2 id="contact-title">Send a message</h2>
+
+      <p class="notice warn">
+        <strong>Demo mode:</strong> there is no inbox or server behind this form, so your message is
+        not sent. It only checks your input in the browser.
+      </p>
+
+      @if (checked()) {
+        <p class="notice" role="status">
+          Your message looks valid, but it was <strong>not</strong> sent anywhere. The form has been
+          cleared.
+        </p>
+      }
+      @if (submitted() && form.invalid) {
+        <p class="notice error" role="alert">Please fix the highlighted fields and try again.</p>
+      }
+
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="name">Name</label>
+            <input
+              id="name"
+              type="text"
+              formControlName="name"
+              autocomplete="name"
+              [attr.aria-invalid]="errorMessage('name') ? 'true' : null"
+              [attr.aria-describedby]="errorMessage('name') ? 'name-error' : null"
+            />
+            @if (errorMessage('name'); as message) {
+              <p class="field-error" id="name-error">{{ message }}</p>
+            }
+          </div>
+
+          <div class="form-field">
+            <label for="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              formControlName="email"
+              autocomplete="email"
+              [attr.aria-invalid]="errorMessage('email') ? 'true' : null"
+              [attr.aria-describedby]="errorMessage('email') ? 'email-error' : null"
+            />
+            @if (errorMessage('email'); as message) {
+              <p class="field-error" id="email-error">{{ message }}</p>
+            }
+          </div>
+
+          <div class="form-field full">
+            <label for="subject">Subject</label>
+            <select
+              id="subject"
+              formControlName="subject"
+              [attr.aria-invalid]="errorMessage('subject') ? 'true' : null"
+              [attr.aria-describedby]="errorMessage('subject') ? 'subject-error' : null"
+            >
+              <option value="">Select a subject</option>
+              @for (subject of subjects; track subject) {
+                <option [value]="subject">{{ subject }}</option>
+              }
+            </select>
+            @if (errorMessage('subject'); as message) {
+              <p class="field-error" id="subject-error">{{ message }}</p>
+            }
+          </div>
+
+          <div class="form-field full">
+            <label for="message">Message</label>
+            <textarea
+              id="message"
+              rows="5"
+              formControlName="message"
+              [attr.aria-invalid]="errorMessage('message') ? 'true' : null"
+              [attr.aria-describedby]="errorMessage('message') ? 'message-error' : null"
+            ></textarea>
+            @if (errorMessage('message'); as message) {
+              <p class="field-error" id="message-error">{{ message }}</p>
+            }
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Send Message</button>
+        </div>
+      </form>
+    </section>
+  </div>
+</div>

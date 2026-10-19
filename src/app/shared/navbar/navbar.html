@@ -1,0 +1,58 @@
+<header class="nav glass">
+  <div class="container nav-inner">
+    <a routerLink="/home" class="brand" aria-label="NEXUS GAMING home" (click)="closeMenu()">
+      <span class="brand-mark" aria-hidden="true">N</span>
+      <span class="brand-text">NEXUS <span class="text-gradient">GAMING</span></span>
+    </a>
+
+    <button
+      type="button"
+      class="menu-btn"
+      [attr.aria-expanded]="menuOpen()"
+      aria-controls="main-menu"
+      aria-label="Toggle navigation menu"
+      (click)="toggleMenu()"
+    >
+      <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+    </button>
+
+    <nav id="main-menu" class="menu" [class.open]="menuOpen()" aria-label="Main navigation">
+      @for (link of links; track link.path) {
+        <a [routerLink]="link.path" routerLinkActive="active" (click)="closeMenu()">
+          {{ link.label }}
+        </a>
+      }
+
+      <a
+        routerLink="/wishlist"
+        routerLinkActive="active"
+        (click)="closeMenu()"
+        [attr.aria-label]="'Wishlist, ' + wishlist.count() + ' items'"
+      >
+        Wishlist
+        @if (wishlist.count() > 0) {
+          <span class="count" aria-hidden="true">{{ wishlist.count() }}</span>
+        }
+      </a>
+
+      <a
+        routerLink="/cart"
+        routerLinkActive="active"
+        (click)="closeMenu()"
+        [attr.aria-label]="'Cart, ' + cart.count() + ' items'"
+      >
+        Cart
+        @if (cart.count() > 0) {
+          <span class="count" aria-hidden="true">{{ cart.count() }}</span>
+        }
+      </a>
+
+      <span class="menu-actions">
+        <a routerLink="/login" routerLinkActive="active" class="btn btn-ghost" (click)="closeMenu()"
+          >Login</a
+        >
+        <a routerLink="/register" class="btn btn-primary" (click)="closeMenu()">Register</a>
+      </span>
+    </nav>
+  </div>
+</header>

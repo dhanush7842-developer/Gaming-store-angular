@@ -1,0 +1,182 @@
+<div class="container page-section">
+  <h1>Check<span class="text-gradient">out</span></h1>
+
+  @if (cart.lines().length === 0) {
+    <div class="card empty" role="status">
+      <h2>Your cart is empty</h2>
+      <p>Add something to your cart before checking out.</p>
+      <a routerLink="/catalogue" class="btn btn-primary">Browse Catalogue</a>
+    </div>
+  } @else {
+    <div class="layout">
+      <section class="card form-card" aria-labelledby="delivery-title">
+        <h2 id="delivery-title">Delivery details</h2>
+
+        <p class="notice warn">
+          <strong>Demo checkout:</strong> no payment is taken, no card details are collected and
+          nothing is delivered. The order is recorded only in this browser.
+        </p>
+
+        @if (saveFailed()) {
+          <p class="notice error" role="alert">
+            We could not save your order in this browser (storage may be full or blocked). Your cart
+            was not changed.
+          </p>
+        }
+        @if (submitted() && form.invalid) {
+          <p class="notice error" role="alert">Please fix the highlighted fields and try again.</p>
+        }
+
+        <form [formGroup]="form" (ngSubmit)="placeOrder()" novalidate>
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="fullName">Full name</label>
+              <input
+                id="fullName"
+                type="text"
+                formControlName="fullName"
+                autocomplete="name"
+                [attr.aria-invalid]="errorMessage('fullName') ? 'true' : null"
+                [attr.aria-describedby]="errorMessage('fullName') ? 'fullName-error' : null"
+              />
+              @if (errorMessage('fullName'); as message) {
+                <p class="field-error" id="fullName-error">{{ message }}</p>
+              }
+            </div>
+
+            <div class="form-field">
+              <label for="mobile">Mobile number</label>
+              <input
+                id="mobile"
+                type="tel"
+                inputmode="numeric"
+                maxlength="10"
+                formControlName="mobile"
+                autocomplete="tel-national"
+                [attr.aria-invalid]="errorMessage('mobile') ? 'true' : null"
+                [attr.aria-describedby]="errorMessage('mobile') ? 'mobile-error' : null"
+              />
+              @if (errorMessage('mobile'); as message) {
+                <p class="field-error" id="mobile-error">{{ message }}</p>
+              }
+            </div>
+
+            <div class="form-field full">
+              <label for="address">Address</label>
+              <textarea
+                id="address"
+                rows="3"
+                formControlName="address"
+                autocomplete="street-address"
+                [attr.aria-invalid]="errorMessage('address') ? 'true' : null"
+                [attr.aria-describedby]="errorMessage('address') ? 'address-error' : null"
+              ></textarea>
+              @if (errorMessage('address'); as message) {
+                <p class="field-error" id="address-error">{{ message }}</p>
+              }
+            </div>
+
+            <div class="form-field">
+              <label for="city">City</label>
+              <input
+                id="city"
+                type="text"
+                formControlName="city"
+                autocomplete="address-level2"
+                [attr.aria-invalid]="errorMessage('city') ? 'true' : null"
+                [attr.aria-describedby]="errorMessage('city') ? 'city-error' : null"
+              />
+              @if (errorMessage('city'); as message) {
+                <p class="field-error" id="city-error">{{ message }}</p>
+              }
+            </div>
+
+            <div class="form-field">
+              <label for="pincode">PIN code</label>
+              <input
+                id="pincode"
+                type="text"
+                inputmode="numeric"
+                maxlength="6"
+                formControlName="pincode"
+                autocomplete="postal-code"
+                [attr.aria-invalid]="errorMessage('pincode') ? 'true' : null"
+                [attr.aria-describedby]="errorMessage('pincode') ? 'pincode-error' : null"
+              />
+              @if (errorMessage('pincode'); as message) {
+                <p class="field-error" id="pincode-error">{{ message }}</p>
+              }
+            </div>
+
+            <div class="form-field full">
+              <label for="state">State</label>
+              <select
+                id="state"
+                formControlName="state"
+                autocomplete="address-level1"
+                [attr.aria-invalid]="errorMessage('state') ? 'true' : null"
+                [attr.aria-describedby]="errorMessage('state') ? 'state-error' : null"
+              >
+                <option value="">Select a state</option>
+                @for (state of states; track state) {
+                  <option [value]="state">{{ state }}</option>
+                }
+              </select>
+              @if (errorMessage('state'); as message) {
+                <p class="field-error" id="state-error">{{ message }}</p>
+              }
+            </div>
+          </div>
+
+          <h2 class="pay-title">Payment</h2>
+          <p class="pay">Cash on delivery <span>(demo, no payment taken)</span></p>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Place Demo Order</button>
+            <a routerLink="/cart" class="btn">Back to Cart</a>
+          </div>
+        </form>
+      </section>
+
+      <aside class="card summary" aria-label="Order summary">
+        <h2>Order summary</h2>
+
+        <ul class="items">
+          @for (line of cart.lines(); track line.product.id) {
+            <li>
+              <span class="thumb"
+                ><img appImgFallback [src]="line.product.image" [alt]="line.product.name"
+              /></span>
+              <span class="name"
+                >{{ line.product.name }} <small>&times; {{ line.quantity }}</small></span
+              >
+              <span class="amount">{{ line.lineTotal | inr }}</span>
+            </li>
+          }
+        </ul>
+
+        <dl>
+          <div>
+            <dt>Items</dt>
+            <dd>{{ cart.count() }}</dd>
+          </div>
+          <div>
+            <dt>Subtotal</dt>
+            <dd>{{ cart.subtotal() | inr }}</dd>
+          </div>
+          @if (cart.discount() > 0) {
+            <div class="discount">
+              <dt>Discount ({{ cart.promo()!.code }})</dt>
+              <dd>&minus;{{ cart.discount() | inr }}</dd>
+            </div>
+          }
+          <div class="total">
+            <dt>Total</dt>
+            <dd class="price">{{ cart.total() | inr }}</dd>
+          </div>
+        </dl>
+        <p class="hint">No shipping or tax is added in this demo.</p>
+      </aside>
+    </div>
+  }
+</div>

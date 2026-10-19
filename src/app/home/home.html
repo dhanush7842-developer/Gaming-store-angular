@@ -1,0 +1,114 @@
+<div class="container home">
+  <!-- ===== Hero + highlight tiles (Bento) ===== -->
+  <section class="bento hero-grid" aria-label="Welcome">
+    <div class="card hero span-8 row-2">
+      <p class="eyebrow">Welcome to NEXUS GAMING</p>
+      <h1>LEVEL UP.<br />GEAR UP.<br /><span class="text-gradient">GAME ON.</span></h1>
+      <p class="lead">
+        Your arena for next-level gaming. Explore PCs, laptops, graphics cards and accessories, all
+        priced in rupees.
+      </p>
+      <div class="actions">
+        <a routerLink="/catalogue" class="btn btn-primary">Shop Catalogue</a>
+        <a routerLink="/register" class="btn">Create Account</a>
+      </div>
+    </div>
+
+    <a
+      routerLink="/catalogue"
+      class="card span-4 tile image-tile"
+      [attr.aria-label]="'Shop ' + heroProduct.name"
+    >
+      <img appImgFallback [src]="heroProduct.image" [alt]="heroProduct.name" />
+      <div class="overlay">
+        <span class="label">Top pick</span>
+        <strong>{{ heroProduct.name }}</strong>
+        <span class="price">{{ heroProduct.price | inr }}</span>
+      </div>
+    </a>
+
+    <a
+      [routerLink]="['/catalogue']"
+      [queryParams]="{ category: offerProduct.category }"
+      class="card span-4 tile offer"
+    >
+      <span class="label">Special offer</span>
+      <strong>{{ offerProduct.name }}</strong>
+      <span class="price-line">
+        <span class="price">{{ offerProduct.price | inr }}</span>
+        @if (offerProduct.oldPrice) {
+          <span class="old">{{ offerProduct.oldPrice | inr }}</span>
+        }
+      </span>
+      <span class="more">View deals &rarr;</span>
+    </a>
+  </section>
+
+  <!-- ===== Categories ===== -->
+  <section class="block" aria-labelledby="cat-title">
+    <h2 id="cat-title">Shop by category</h2>
+    <div class="bento">
+      @for (tile of categoryTiles; track tile.name; let i = $index) {
+        <a
+          [routerLink]="['/catalogue']"
+          [queryParams]="{ category: tile.name }"
+          class="card cat-tile"
+          [class.span-3]="i < 4"
+          [class.span-4]="i >= 4"
+        >
+          <img appImgFallback [src]="tile.image" alt="" loading="lazy" />
+          <span class="cat-name">{{ tile.name }}</span>
+          <span class="cat-count">{{ tile.count }} product(s)</span>
+        </a>
+      }
+    </div>
+  </section>
+
+  <!-- ===== Recently viewed (only shows after you have opened a product) ===== -->
+  @if (recent.products().length > 0) {
+    <section class="block" aria-labelledby="recent-title">
+      <div class="block-head">
+        <h2 id="recent-title">Recently viewed</h2>
+        <button type="button" class="link-btn" (click)="recent.clear()">Clear</button>
+      </div>
+      <div class="bento">
+        @for (product of recent.products().slice(0, 4); track product.id) {
+          <app-product-card class="span-3" [product]="product" />
+        }
+      </div>
+    </section>
+  }
+
+  <!-- ===== Featured ===== -->
+  <section class="block" aria-labelledby="feat-title">
+    <div class="block-head">
+      <h2 id="feat-title">Featured products</h2>
+      <a routerLink="/catalogue">View all &rarr;</a>
+    </div>
+    <div class="bento">
+      @for (product of featured; track product.id) {
+        <app-product-card class="span-3" [product]="product" />
+      }
+    </div>
+  </section>
+
+  <!-- ===== New arrivals ===== -->
+  <section class="block" aria-labelledby="new-title">
+    <h2 id="new-title">New arrivals</h2>
+    <div class="bento">
+      @for (product of newArrivals; track product.id) {
+        <app-product-card class="span-4" [product]="product" />
+      }
+    </div>
+  </section>
+
+  <!-- ===== Best sellers ===== -->
+  <section class="block" aria-labelledby="best-title">
+    <h2 id="best-title">Best sellers</h2>
+    <div class="bento">
+      @for (product of bestSellers; track product.id) {
+        <app-product-card class="span-4" [product]="product" />
+      }
+    </div>
+  </section>
+</div>

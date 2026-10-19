@@ -1,0 +1,22 @@
+<div class="container wish">
+  <div class="head">
+    <h1>Your <span class="text-gradient">Wishlist</span></h1>
+    @if (wishlist.count() > 0) {
+      <button type="button" class="btn btn-ghost" (click)="clear()">Clear Wishlist</button>
+    }
+  </div>
+
+  @if (wishlist.count() > 0) {
+    <div class="bento">
+      @for (product of wishlist.products(); track product.id) {
+        <app-product-card class="span-3" [product]="product" />
+      }
+    </div>
+  } @else {
+    <div class="card empty" role="status">
+      <h2>Your wishlist is empty</h2>
+      <p>Tap the heart on any product to save it here.</p>
+      <a routerLink="/catalogue" class="btn btn-primary">Browse Catalogue</a>
+    </div>
+  }
+</div>

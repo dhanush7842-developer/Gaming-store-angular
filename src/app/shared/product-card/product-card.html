@@ -1,0 +1,61 @@
+<article class="card product">
+  <div class="media">
+    <a
+      [routerLink]="['/product', product().id]"
+      [attr.aria-label]="'View details of ' + product().name"
+    >
+      <img appImgFallback [src]="product().image" [alt]="product().name" loading="lazy" />
+    </a>
+
+    @if (product().isNew) {
+      <span class="badge">New</span>
+    } @else if (product().oldPrice) {
+      <span class="badge sale">Offer</span>
+    }
+
+    <button
+      type="button"
+      class="heart"
+      [class.on]="wishlist.has(product().id)"
+      [attr.aria-pressed]="wishlist.has(product().id)"
+      [attr.aria-label]="
+        (wishlist.has(product().id) ? 'Remove ' : 'Add ') +
+        product().name +
+        (wishlist.has(product().id) ? ' from wishlist' : ' to wishlist')
+      "
+      (click)="toggleWishlist()"
+    >
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+        <path
+          d="M12 21s-7.5-4.6-9.6-9.2C.8 8.2 3 4.5 6.6 4.5c2 0 3.6 1 4.4 2.5.8-1.5 2.4-2.5 4.4-2.5 3.6 0 5.8 3.7 4.2 7.3C19.5 16.4 12 21 12 21z"
+        />
+      </svg>
+    </button>
+  </div>
+
+  <p class="category">{{ product().category }}</p>
+  <h3>
+    <a [routerLink]="['/product', product().id]">{{ product().name }}</a>
+  </h3>
+  <p class="desc">{{ product().description }}</p>
+
+  <div class="bottom">
+    <p class="price-row">
+      <span class="price">{{ product().price | inr }}</span>
+      @if (product().oldPrice) {
+        <span class="old">{{ product().oldPrice! | inr }}</span>
+      }
+    </p>
+
+    @if (showAction()) {
+      <button
+        type="button"
+        class="btn btn-primary"
+        [attr.aria-label]="'Add ' + product().name + ' to cart'"
+        (click)="addToCart()"
+      >
+        Add to Cart
+      </button>
+    }
+  </div>
+</article>

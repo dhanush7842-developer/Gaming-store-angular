@@ -1,0 +1,15 @@
+<div class="toast-region" aria-live="polite" aria-atomic="false">
+  @for (toast of toastService.toasts(); track toast.id) {
+    <div class="toast glass" [class]="toast.type" role="status">
+      <span>{{ toast.message }}</span>
+      <button
+        type="button"
+        class="close"
+        aria-label="Dismiss message"
+        (click)="toastService.dismiss(toast.id)"
+      >
+        &times;
+      </button>
+    </div>
+  }
+</div>

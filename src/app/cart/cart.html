@@ -1,0 +1,144 @@
+<div class="container cart-page">
+  <h1>Your <span class="text-gradient">Cart</span></h1>
+
+  @if (cart.lines().length > 0) {
+    <div class="layout">
+      <ul class="lines" aria-label="Items in your cart">
+        @for (line of cart.lines(); track line.product.id) {
+          <li class="card line">
+            <a
+              [routerLink]="['/product', line.product.id]"
+              class="thumb"
+              [attr.aria-label]="'View ' + line.product.name"
+            >
+              <img appImgFallback [src]="line.product.image" [alt]="line.product.name" />
+            </a>
+
+            <div class="meta">
+              <h2>
+                <a [routerLink]="['/product', line.product.id]">{{ line.product.name }}</a>
+              </h2>
+              <p class="unit">{{ line.product.price | inr }} each</p>
+
+              <div class="qty" role="group" [attr.aria-label]="'Quantity of ' + line.product.name">
+                <button
+                  type="button"
+                  aria-label="Decrease quantity"
+                  [disabled]="line.quantity <= 1"
+                  (click)="changeQuantity(line.product.id, line.quantity, -1)"
+                >
+                  &minus;
+                </button>
+                <output aria-live="polite">{{ line.quantity }}</output>
+                <button
+                  type="button"
+                  aria-label="Increase quantity"
+                  [disabled]="line.quantity >= maxQuantity"
+                  (click)="changeQuantity(line.product.id, line.quantity, 1)"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
+            <div class="right">
+              <span class="price">{{ line.lineTotal | inr }}</span>
+              <button
+                type="button"
+                class="remove"
+                (click)="remove(line.product.id, line.product.name)"
+                [attr.aria-label]="'Remove ' + line.product.name + ' from cart'"
+              >
+                Remove
+              </button>
+            </div>
+          </li>
+        }
+      </ul>
+
+      <aside class="card summary" aria-label="Order summary">
+        <h2>Order summary</h2>
+        <div class="promo">
+          @if (cart.promo(); as promo) {
+            <p class="applied">
+              <strong>{{ promo.code }}</strong> {{ promo.description }}
+              <button
+                type="button"
+                class="remove"
+                (click)="removePromo()"
+                [attr.aria-label]="'Remove promo code ' + promo.code"
+              >
+                Remove
+              </button>
+            </p>
+            @if (cart.promoShortfall() > 0) {
+              <p class="promo-msg bad" role="status">
+                Add {{ cart.promoShortfall() | inr }} more to your cart to use {{ promo.code }}.
+              </p>
+            }
+          } @else {
+            <label for="promo">Promo code</label>
+            <div class="promo-row">
+              <input
+                id="promo"
+                #promoInput
+                type="text"
+                autocomplete="off"
+                autocapitalize="characters"
+                placeholder="Enter code"
+                (keydown.enter)="applyPromo(promoInput.value)"
+              />
+              <button type="button" class="btn" (click)="applyPromo(promoInput.value)">
+                Apply
+              </button>
+            </div>
+          }
+          @if (promoMessage(); as message) {
+            <p class="promo-msg" [class.bad]="!message.ok" role="status">{{ message.text }}</p>
+          }
+          <p class="demo-codes">
+            Demo codes:
+            @for (promo of promoCodes; track promo.code; let last = $last) {
+              <code>{{ promo.code }}</code> ({{ promo.description }}, min
+              {{ promo.minSubtotal | inr }})
+              @if (!last) {
+                ,
+              }
+            }
+          </p>
+        </div>
+
+        <dl>
+          <div>
+            <dt>Items</dt>
+            <dd>{{ cart.count() }}</dd>
+          </div>
+          <div>
+            <dt>Subtotal</dt>
+            <dd>{{ cart.subtotal() | inr }}</dd>
+          </div>
+          @if (cart.discount() > 0) {
+            <div class="discount">
+              <dt>Discount ({{ cart.promo()!.code }})</dt>
+              <dd>&minus;{{ cart.discount() | inr }}</dd>
+            </div>
+          }
+          <div class="total">
+            <dt>Total</dt>
+            <dd class="price">{{ cart.total() | inr }}</dd>
+          </div>
+        </dl>
+        <p class="hint">No shipping or tax is added in this demo.</p>
+        <a routerLink="/checkout" class="btn btn-primary">Proceed to Checkout</a>
+        <a routerLink="/catalogue" class="btn">Continue Shopping</a>
+        <button type="button" class="btn btn-ghost" (click)="clear()">Clear Cart</button>
+      </aside>
+    </div>
+  } @else {
+    <div class="card empty" role="status">
+      <h2>Your cart is empty</h2>
+      <p>Add some gaming gear and it will show up here.</p>
+      <a routerLink="/catalogue" class="btn btn-primary">Browse Catalogue</a>
+    </div>
+  }
+</div>

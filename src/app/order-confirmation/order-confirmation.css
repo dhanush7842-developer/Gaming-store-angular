@@ -1,0 +1,79 @@
+.done {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px;
+}
+.done:hover {
+  transform: none;
+}
+.eyebrow {
+  margin: 0 0 8px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  font-size: 0.95rem;
+}
+.id {
+  font-size: 1.2rem;
+}
+.id strong {
+  color: var(--text);
+  font-family: var(--font-heading);
+  letter-spacing: 0.04em;
+}
+
+.items {
+  list-style: none;
+  margin: 18px 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.items li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.name small {
+  color: var(--text-muted);
+}
+.amount {
+  font-weight: 700;
+}
+
+dl {
+  margin: 0 0 20px;
+  display: grid;
+  gap: 8px;
+}
+dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+dt {
+  color: var(--text-muted);
+}
+dd {
+  margin: 0;
+  font-weight: 700;
+  text-align: right;
+}
+.total {
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  font-size: 1.15rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.discount dd {
+  color: var(--success);
+}

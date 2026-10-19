@@ -1,0 +1,67 @@
+<div class="container page-section">
+  @if (!orders.loaded()) {
+    <p role="status">Loading your order&hellip;</p>
+  } @else if (order(); as o) {
+    <div class="card done">
+      <p class="eyebrow">Demo order recorded</p>
+      <h1>Thank <span class="text-gradient">you</span>, {{ o.deliverTo.fullName }}!</h1>
+      <p class="id">
+        Order number: <strong>{{ o.id }}</strong>
+      </p>
+      <p class="notice warn">
+        This is a demo. No payment was taken, nothing will be delivered, and the order is saved only
+        in this browser.
+      </p>
+
+      <ul class="items" aria-label="Items in this order">
+        @for (item of o.items; track item.productId) {
+          <li>
+            <span class="name"
+              >{{ item.name }} <small>&times; {{ item.quantity }}</small></span
+            >
+            <span class="amount">{{ item.lineTotal | inr }}</span>
+          </li>
+        }
+      </ul>
+
+      <dl>
+        <div>
+          <dt>Placed on</dt>
+          <dd>{{ o.placedAt | date: 'd MMM y, h:mm a' }}</dd>
+        </div>
+        <div>
+          <dt>Delivery to</dt>
+          <dd>{{ o.deliverTo.fullName }}, {{ o.deliverTo.city }} - {{ o.deliverTo.pincode }}</dd>
+        </div>
+        <div>
+          <dt>Payment</dt>
+          <dd>{{ o.paymentMethod }}</dd>
+        </div>
+        @if (o.discount) {
+          <div class="discount">
+            <dt>Promo ({{ o.promoCode }})</dt>
+            <dd>&minus;{{ o.discount | inr }}</dd>
+          </div>
+        }
+        <div class="total">
+          <dt>Total</dt>
+          <dd class="price">{{ o.total | inr }}</dd>
+        </div>
+      </dl>
+
+      <div class="actions">
+        <a routerLink="/orders" class="btn btn-primary">View Order History</a>
+        <a routerLink="/catalogue" class="btn">Continue Shopping</a>
+      </div>
+    </div>
+  } @else {
+    <div class="card done" role="status">
+      <h1>Order not found</h1>
+      <p>We could not find this order in this browser.</p>
+      <div class="actions">
+        <a routerLink="/orders" class="btn btn-primary">View Order History</a>
+        <a routerLink="/catalogue" class="btn">Browse Catalogue</a>
+      </div>
+    </div>
+  }
+</div>

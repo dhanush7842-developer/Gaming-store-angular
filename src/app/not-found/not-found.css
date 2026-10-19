@@ -1,0 +1,23 @@
+.lost {
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 48px 28px;
+  text-align: center;
+}
+.lost:hover {
+  transform: none;
+}
+.code {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-weight: 900;
+  font-size: clamp(4rem, 14vw, 7rem);
+  line-height: 1;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 8px;
+}
