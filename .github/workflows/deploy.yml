@@ -19,7 +19,8 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: npm run build -- --configuration production --base-href /Gaming-store-angular/
+        # Use base-href for repo subpath hosting
+        run: npm run build -- --configuration production --base-href /Gaming-store-angular/ --output-path=./dist/gaming-store-angular/browser
 
       - name: Create 404 fallback for SPA
         run: |
@@ -27,7 +28,7 @@ jobs:
           if [ -f "$BUILD_DIR/index.html" ]; then
             cp "$BUILD_DIR/index.html" "$BUILD_DIR/404.html"
           else
-            echo "Build output not found at $BUILD_DIR"
+            echo "Build output not found at $BUILD_DIR. Adjust publish_dir in the workflow or angular.json if needed."
             ls -la ./dist || true
             exit 1
           fi
