@@ -19,16 +19,15 @@ jobs:
         run: npm ci
 
       - name: Build
-        # Adjust the base-href value below if you will publish to a different path
         run: npm run build -- --configuration production --base-href /Gaming-store-angular/
 
       - name: Create 404 fallback for SPA
         run: |
-          BUILD_DIR=./dist/Gaming-store-angular
+          BUILD_DIR=./dist/gaming-store-angular/browser
           if [ -f "$BUILD_DIR/index.html" ]; then
             cp "$BUILD_DIR/index.html" "$BUILD_DIR/404.html"
           else
-            echo "Build output not found at $BUILD_DIR. Adjust publish_dir in the workflow if needed."
+            echo "Build output not found at $BUILD_DIR"
             ls -la ./dist || true
             exit 1
           fi
@@ -38,4 +37,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: ./dist/Gaming-store-angular
+          publish_dir: ./dist/gaming-store-angular/browser
